@@ -117,6 +117,12 @@ footer {
     color: #facc15;
 }
 
+.pokemon-info {
+    background-color: #121820;
+    padding: 15px;
+    border-radius: 8px;
+}
+
 .pokemon-info h3 {
     color: #facc15;
     margin-top: 0;
