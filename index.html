@@ -20,10 +20,29 @@
     </header>
 
     <main>
-        <section>
+        <section class="search-section">
             <h2>Explore Pokemon</h2>
             <p>Search for Pokemon and view their information.</p>
+
+            <form id="search-form">
+                <label for="pokemon-search">Search Pokemon:</label>
+                <input type="search" id="pokemon-search" name="pokemon-search" placeholder="Enter a Pokemon name">
+
+                <button type="submit">Search</button>
+
+                <label for="type-filter">Type:</label>
+                <select id="type-filter" name="type-filter">
+                    <option value="all">All Types</option>
+                    <option value="fire">Fire</option>
+                    <option value="water">Water</option>
+                    <option value="grass">Grass</option>
+                    <option value="electric">Electric</option>
+                </select>
+
+                <button type="reset">Clear</button>
+            </form>
         </section>
+        
     </main>
 
     <footer>

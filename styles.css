@@ -37,6 +37,27 @@ main {
     padding: 20px;
 }
 
+#pokemon-search, #type-filter {
+    padding: 10px;
+    background-color: #121820;
+    color: #f1f5f9;
+    border: 1px solid #3b82f6;
+    border-radius: 5px;
+}
+
+#search-form button {
+    padding: 10px 18px;
+    background-color: #facc15;
+    color: #121820;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#search-form button:hover {
+    background-color: #eab308;
+}
+
 footer {
     background-color: #1b2430;
     padding: 15px;
