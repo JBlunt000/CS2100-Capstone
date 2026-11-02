@@ -99,7 +99,7 @@ footer {
 }
 
 .pokemon-grid {
-    dispay: flex;
+    display: flex;
     flex-wrap: wrap;
     gap: 15px;
 }
