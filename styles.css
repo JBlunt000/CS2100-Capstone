@@ -8,6 +8,29 @@ body {
 header {
     background-color: #1b2430;
     padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #3b82f6;
+}
+
+header h1 {
+    margin: 0;
+    color: #facc15;
+}
+
+nav {
+    display: flex;
+    gap: 25px;
+}
+
+nav a {
+    color: #f1f5f9;
+    text-decoration: none;
+}
+
+nav a:hover, nav a.active {
+    color: #facc15;
 }
 
 main {
