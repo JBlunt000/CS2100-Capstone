@@ -24,10 +24,25 @@ async function fetchPokemonDetails(name) {
         }
 
         const data = await response.json();
-        console.log(data);
+        const pokemon = formatPokemonData(data);
+        console.log(pokemon);
     } catch (error) {
         console.error("Error fetching Pokemon details:", error);
     }
 }
 
 fetchPokemonDetails("bulbasaur");
+
+function formatPokemonData(data) {
+    return {
+        id: data.id,
+        name: data.name,
+        types: data.types.map(type => type.type.name),
+        abilities: data.abilities.map(ability => ability.ability.name),
+        stats: data.stats.map(stat => ({
+            name: stat.stat.name,
+            value: stat.base_stat
+        })),
+        image: data.sprites.front_default
+    }
+}
