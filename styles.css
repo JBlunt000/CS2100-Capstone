@@ -2,7 +2,7 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #121820;
-    color: #f1f5f9
+    color: #f1f5f9;
 }
 
 header {
@@ -35,6 +35,19 @@ nav a:hover, nav a.active {
 
 main {
     padding: 20px;
+}
+
+.search-section {
+    background-color: #1b2430;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+#search-form {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
 }
 
 #pokemon-search, #type-filter {
