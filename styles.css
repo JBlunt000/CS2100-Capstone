@@ -97,3 +97,23 @@ footer {
     border-radius: 8px;
     border: 1px solid #3b82f6;
 }
+
+.pokemon-grid {
+    dispay: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.pokemon-card {
+    background-color: #121820;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 15px;
+    flex: 1 1 150px;
+}
+
+.pokemon-card h3 {
+    margin-top: 0;
+    color: #facc15;
+}
+
