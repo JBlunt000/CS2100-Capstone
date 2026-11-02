@@ -156,3 +156,14 @@ footer a:hover {
     margin-bottom: 8px;
 }
 
+@media (max-width: 768px) {
+    .pokemon-container {
+        flex-direction: column;
+    }
+
+    .pokemon-list, .pokemon-details {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
