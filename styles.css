@@ -177,3 +177,10 @@ footer a:hover {
     }
 }
 
+.pokemon-card {
+    cursor: pointer;
+}
+
+.pokemon-card:hover {
+    border-color: #3b82f6;
+}

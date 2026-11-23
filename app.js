@@ -45,11 +45,55 @@ function displayPokemon(pokemonList) {
         card.appendChild(name);
         card.appendChild(image);
         card.appendChild(types);
-        
+
+        card.addEventListener("click", () => {
+            displayPokemonDetails(pokemon);
+        });
+
         fragment.appendChild(card);
     });
 
     grid.appendChild(fragment);
+}
+
+function displayPokemonDetails(pokemon) {
+    const info = document.getElementById("pokemon-info");
+
+    info.innerHTML = "";
+
+    const name = document.createElement("h3");
+    name.textContent = pokemon.name;
+
+    const typesHeading = document.createElement("h4");
+    typesHeading.textContent = "Types";
+
+    const types = document.createElement("p");
+    types.textContent = pokemon.types.join(" / ");
+
+    const abilitiesHeading = document.createElement("h4");
+    abilitiesHeading.textContent = "Abilities";
+
+    const abilities = document.createElement("p");
+    abilities.textContent = pokemon.abilities.join(", ");
+
+    const statsHeading = document.createElement("h4");
+    statsHeading.textContent = "Stats";
+
+    const statsList = document.createElement("ul");
+
+    pokemon.stats.forEach(stat => {
+        const item = document.createElement("li");
+        item.textContent = stat.name + ": " + stat.value;
+        statsList.appendChild(item);
+    });
+
+    info.appendChild(name);
+    info.appendChild(typesHeading);
+    info.appendChild(types);
+    info.appendChild(abilitiesHeading);
+    info.appendChild(abilities);
+    info.appendChild(statsHeading);
+    info.appendChild(statsList);
 }
 
 async function fetchPokemonDetails(name) {
@@ -67,8 +111,6 @@ async function fetchPokemonDetails(name) {
         console.error("Error fetching Pokemon details:", error);
     }
 }
-
-fetchPokemonDetails("bulbasaur");
 
 function formatPokemonData(data) {
     return {
