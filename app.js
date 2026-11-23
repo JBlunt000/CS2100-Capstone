@@ -1,6 +1,8 @@
 let allPokemon = [];
+let latestRequest = 0;
 
 async function fetchPokemon(generation = "all") {
+    const requestId = ++latestRequest;
     try {
         let pokemonUrls = [];
 
@@ -45,6 +47,10 @@ async function fetchPokemon(generation = "all") {
             const details = await response.json();
             return formatPokemonData(details);
         }));
+
+        if (requestId !== latestRequest) {
+            return;
+        }
 
         allPokemon = pokemonList;
         filterPokemon();
