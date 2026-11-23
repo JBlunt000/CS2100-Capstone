@@ -125,33 +125,59 @@ async function fetchPokemonDetails(name) {
 
     const searchForm = document.getElementById("search-form");
     const searchInput = document.getElementById("pokemon-search");
+    const typeFilter = document.getElementById("type-filter");
+
+    function filterPokemon() {
+        const selectedType = typeFilter.value;
+
+        if (selectedType === "all") {
+            displayPokemon(allPokemon);
+            return;
+        }
+
+        const filteredPokemon = allPokemon.filter(pokemon => 
+            pokemon.types.includes(selectedType)
+        );
+
+        displayPokemon(filteredPokemon);
+    }
+
+        typeFilter.addEventListener("change", () => {
+            filterPokemon();
+        });
 
     searchForm.addEventListener("submit", async event => {
         event.preventDefault();
 
         const searchTerm = searchInput.value.trim().toLowerCase();
+        const selectedType = typeFilter.value;
 
-        if (searchTerm === "") {
-            displayPokemon(allPokemon);
-            return;
-        }
-
-        const matchingPokemon = allPokemon.filter(pokemon =>
+        let matchingPokemon = allPokemon.filter(pokemon =>
             pokemon.name.includes(searchTerm)
         );
 
+        if (selectedType !== "all") {
+            matchingPokemon = matchingPokemon.filter(pokemon =>
+                pokemon.types.includes(selectedType)
+            );
+        }
+
         if (matchingPokemon.length > 0) {
             displayPokemon(matchingPokemon);
-        } else {
+        } else if (searchTerm !== "") {
             const pokemon = await fetchPokemonDetails(searchTerm);
 
-            if (pokemon) {
+            if (pokemon && (selectedType === "all" || pokemon.types.includes(selectedType))) {
                 displayPokemon([pokemon]);
             } else {
                 displayPokemon([]);
             }
+
+        } else {
+            displayPokemon([]);
         }
     });
+
 
     searchForm.addEventListener("reset", () => {
         displayPokemon(allPokemon);
