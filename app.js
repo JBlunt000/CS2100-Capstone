@@ -47,7 +47,7 @@ const pokemonList = await Promise.all(pokemonUrls.map(async url => {
 }));
 
     allPokemon = pokemonList;
-    filterPokemon()
+    filterPokemon();
 
 } catch (error) {
     console.error("Error fetching Pokemon:", error);
@@ -72,6 +72,9 @@ function displayPokemon(pokemonList) {
     pokemonList.forEach(pokemon => {
         const card = document.createElement("article");
         card.classList.add("pokemon-card");
+        const button = document.createElement("button");
+        button.classList.add("pokemon-card-button");
+        button.type = "button";
 
         const name = document.createElement("h3");
         name.textContent = pokemon.name;
@@ -83,14 +86,15 @@ function displayPokemon(pokemonList) {
         const types = document.createElement("p");
         types.textContent = "Type: " + pokemon.types.join(" / ");
 
-        card.appendChild(name);
-        card.appendChild(image);
-        card.appendChild(types);
+        button.appendChild(name);
+        button.appendChild(image);
+        button.appendChild(types);
 
-        card.addEventListener("click", () => {
+        button.addEventListener("click", () => {
             displayPokemonDetails(pokemon);
         });
 
+        card.appendChild(button);
         fragment.appendChild(card);
     });
 

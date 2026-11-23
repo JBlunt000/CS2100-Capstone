@@ -121,6 +121,19 @@ footer a:hover {
     border-radius: 8px;
     padding: 15px;
     flex: 1 1 150px;
+    cursor: pointer;
+}
+
+.pokemon-card-button {
+    display: block;
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 0;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
 }
 
 .pokemon-card h3 {
@@ -177,10 +190,6 @@ footer a:hover {
     }
 }
 
-.pokemon-card {
-    cursor: pointer;
-}
-
 .pokemon-card:hover {
     border-color: #3b82f6;
 }
@@ -197,4 +206,10 @@ footer a:hover {
 input[aria-invalid="true"],
 select[aria-invalid="true"] {
     border-color: #fca5a5;
+}
+
+.pokemon-card:focus-within {
+    border-color: #facc15;
+    outline: 2px solid #facc15;
+    outline-offset: 2px;
 }
