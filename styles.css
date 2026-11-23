@@ -50,7 +50,7 @@ main {
     flex-wrap: wrap;
 }
 
-#pokemon-search, #type-filter {
+#pokemon-search, #type-filter, #generation-filter {
     padding: 10px;
     background-color: #121820;
     color: #f1f5f9;
