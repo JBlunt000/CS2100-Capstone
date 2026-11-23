@@ -180,6 +180,8 @@ async function matchesPokemonGeneration(pokemon, generation) {
     const typeFilter = document.getElementById("type-filter");
     const generationFilter = document.getElementById("generation-filter");
     const searchError = document.getElementById("search-error");
+    const typeError = document.getElementById("type-error");
+    const generationError = document.getElementById("generation-error");
 
     function validatePokemonName() {
         const name = searchInput.value.trim();
@@ -201,6 +203,36 @@ async function matchesPokemonGeneration(pokemon, generation) {
             searchInput.removeAttribute("aria-invalid");
         });
 
+    function validatePokemonType() {
+        const validTypes = ["all", "fire", "water", "grass", "electric"];
+
+        typeError.textContent = "";
+        typeFilter.removeAttribute("aria-invalid");
+
+        if (!validTypes.includes(typeFilter.value)) {
+            typeError.textContent = "Please select a valid Pokemon type.";
+            typeFilter.setAttribute("aria-invalid", "true");
+            return false;
+        }
+
+        return true;
+    }
+
+    function validatePokemonGeneration() {
+        const validGenerations = ["all", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+
+        generationError.textContent = "";
+        generationFilter.removeAttribute("aria-invalid");
+
+        if (!validGenerations.includes(generationFilter.value)) {
+            generationError.textContent = "Please select a valid Pokemon generation.";
+            generationFilter.setAttribute("aria-invalid", "true");
+            return false;
+        }
+
+        return true;
+    }
+
     function filterPokemon() {
         const searchTerm = searchInput.value.trim().toLowerCase();
         const selectedType = typeFilter.value;
@@ -218,10 +250,15 @@ async function matchesPokemonGeneration(pokemon, generation) {
     }
 
         typeFilter.addEventListener("change", () => {
+            validatePokemonType();
             filterPokemon();
         });
 
         generationFilter.addEventListener("change", () => {
+            if (!validatePokemonGeneration()) {
+                return;
+            }
+
             fetchPokemon(generationFilter.value);
 
             const info = document.getElementById("pokemon-info");
@@ -231,9 +268,13 @@ async function matchesPokemonGeneration(pokemon, generation) {
     searchForm.addEventListener("submit", async event => {
         event.preventDefault();
 
-        if (!validatePokemonName()) {
-            return;
-        }
+       const validName = validatePokemonName();
+       const validType = validatePokemonType();
+       const validGeneration = validatePokemonGeneration();
+
+       if (!validName || !validType || !validGeneration) {
+        return;
+       }
 
         const searchTerm = searchInput.value.trim().toLowerCase();
         const selectedType = typeFilter.value;
@@ -288,9 +329,14 @@ async function matchesPokemonGeneration(pokemon, generation) {
 
     searchForm.addEventListener("reset", () => {
         searchError.textContent = "";
-        searchInput.removeAttribute("aria-invalid");
+        typeError.textContent = "";
+        generationError.textContent = "";
 
-        
+
+        searchInput.removeAttribute("aria-invalid");
+        typeFilter.removeAttribute("aria-invalid");
+        generationFilter.removeAttribute("aria-invalid");
+
         fetchPokemon("all");
 
         const info = document.getElementById("pokemon-info");

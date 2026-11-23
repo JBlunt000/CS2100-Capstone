@@ -33,7 +33,7 @@
                 <button type="submit">Search</button>
 
                 <label for="type-filter">Type:</label>
-                <select id="type-filter" name="type-filter">
+                <select id="type-filter" name="type-filter" aria-describedby="type-error">
                     <option value="all">All Types</option>
                     <option value="fire">Fire</option>
                     <option value="water">Water</option>
@@ -41,8 +41,10 @@
                     <option value="electric">Electric</option>
                 </select>
 
+                <span id="type-error" class="error-message" role="alert"></span>
+
                 <label for="generation-filter">Generation:</label>
-                <select id="generation-filter" name="generation-filter">
+                <select id="generation-filter" name="generation-filter" aria-describedby="generation-error">
                     <option value="all">All Generations</option>
                     <option value="1">Generation 1</option>
                     <option value="2">Generation 2</option>
@@ -54,6 +56,8 @@
                     <option value="8">Generation 8</option>
                     <option value="9">Generation 9</option>
                 </select>
+
+                <span id="generation-error" class="error-message" role="alert"></span>
 
                 <button type="reset">Clear</button>
             </form>
