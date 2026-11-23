@@ -47,7 +47,7 @@ const pokemonList = await Promise.all(pokemonUrls.map(async url => {
 }));
 
     allPokemon = pokemonList;
-    displayPokemon(allPokemon);
+    filterPokemon()
 
 } catch (error) {
     console.error("Error fetching Pokemon:", error);
@@ -178,9 +178,6 @@ async function fetchPokemonDetails(name) {
         });
 
         generationFilter.addEventListener("change", () => {
-            searchInput.value = "";
-            typeFilter.value = "all";
-
             fetchPokemon(generationFilter.value);
 
             const info = document.getElementById("pokemon-info");
