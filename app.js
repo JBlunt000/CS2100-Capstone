@@ -1,3 +1,5 @@
+let allPokemon = [];
+
 async function fetchPokemon() {
     try {
         const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=20");
@@ -13,7 +15,9 @@ async function fetchPokemon() {
         const details = await response.json();
         return formatPokemonData(details);
     }));
-    displayPokemon(pokemonList);
+
+    allPokemon = pokemonList;
+    displayPokemon(allPokemon);
 
 } catch (error) {
     console.error("Error fetching Pokemon:", error);
@@ -27,6 +31,13 @@ function displayPokemon(pokemonList) {
     const fragment = document.createDocumentFragment();
 
     grid.innerHTML = "";
+
+        if (pokemonList.length === 0) {
+        const message = document.createElement("p");
+        message.textContent = "No Pokemon Found.";
+        grid.appendChild(message);
+        return;
+    }
 
     pokemonList.forEach(pokemon => {
         const card = document.createElement("article");
@@ -105,12 +116,49 @@ async function fetchPokemonDetails(name) {
         }
 
         const data = await response.json();
-        const pokemon = formatPokemonData(data);
-        console.log(pokemon);
+        return formatPokemonData(data);
     } catch (error) {
         console.error("Error fetching Pokemon details:", error);
+        return null;
     }
 }
+
+    const searchForm = document.getElementById("search-form");
+    const searchInput = document.getElementById("pokemon-search");
+
+    searchForm.addEventListener("submit", async event => {
+        event.preventDefault();
+
+        const searchTerm = searchInput.value.trim().toLowerCase();
+
+        if (searchTerm === "") {
+            displayPokemon(allPokemon);
+            return;
+        }
+
+        const matchingPokemon = allPokemon.filter(pokemon =>
+            pokemon.name.includes(searchTerm)
+        );
+
+        if (matchingPokemon.length > 0) {
+            displayPokemon(matchingPokemon);
+        } else {
+            const pokemon = await fetchPokemonDetails(searchTerm);
+
+            if (pokemon) {
+                displayPokemon([pokemon]);
+            } else {
+                displayPokemon([]);
+            }
+        }
+    });
+
+    searchForm.addEventListener("reset", () => {
+        displayPokemon(allPokemon);
+
+        const info = document.getElementById("pokemon-info");
+        info.innerHTML = "<p>Select a Pokemon to view its details.</p>";
+    });
 
 function formatPokemonData(data) {
     return {
@@ -123,5 +171,5 @@ function formatPokemonData(data) {
             value: stat.base_stat
         })),
         image: data.sprites.front_default
-    }
+    };
 }
