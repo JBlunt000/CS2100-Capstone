@@ -153,6 +153,28 @@ async function fetchPokemonDetails(name) {
     }
 }
 
+async function matchesPokemonGeneration(pokemon, generation) {
+    if (generation === "all") {
+        return true;
+    }
+
+    try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemon.id}/`);
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch Pokemon species.");
+        }
+
+        const data = await response.json();
+
+        return data.generation.url.endsWith(`/${generation}/`);
+
+    } catch (error) {
+        console.error("Error checking Pokemon generation:", error);
+        return false;
+    }
+}
+
     const searchForm = document.getElementById("search-form");
     const searchInput = document.getElementById("pokemon-search");
     const typeFilter = document.getElementById("type-filter");
@@ -161,6 +183,7 @@ async function fetchPokemonDetails(name) {
     function filterPokemon() {
         const searchTerm = searchInput.value.trim().toLowerCase();
         const selectedType = typeFilter.value;
+
 
         const filteredPokemon = allPokemon.filter(pokemon => {
             const matchesName = pokemon.name.includes(searchTerm);
@@ -189,6 +212,7 @@ async function fetchPokemonDetails(name) {
 
         const searchTerm = searchInput.value.trim().toLowerCase();
         const selectedType = typeFilter.value;
+        const selectedGeneration = generationFilter.value;
 
         let matchingPokemon = allPokemon.filter(pokemon =>
             pokemon.name.includes(searchTerm)
@@ -215,8 +239,18 @@ async function fetchPokemonDetails(name) {
 
             const pokemon = await fetchPokemonDetails(searchTerm);
 
-            if (pokemon && (selectedType === "all" || pokemon.types.includes(selectedType))) {
-                displayPokemon([pokemon]);
+            if (pokemon) {
+                const matchesType = selectedType === "all" ||
+                pokemon.types.includes(selectedType);
+
+                const matchesGeneration =  await matchesPokemonGeneration(pokemon, selectedGeneration);
+
+                if (matchesType && matchesGeneration) {
+                    displayPokemon([pokemon]);
+                } else {
+                    displayPokemon([]);
+                }
+
             } else {
                 displayPokemon([]);
             }
