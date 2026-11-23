@@ -1,20 +1,50 @@
 let allPokemon = [];
 
-async function fetchPokemon() {
+async function fetchPokemon(generation = "all") {
     try {
-        const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=20");
+        let pokemonUrls = [];
+
+        if (generation === "all") {
+            const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=20");
 
         if (!response.ok) {
             throw new Error("Failed to fetch Pokemon data.");
     }
 
     const data = await response.json();
+    pokemonUrls = data.results.map(pokemon => pokemon.url);
 
-    const pokemonList = await Promise.all(data.results.map(async pokemon => {
-        const response = await fetch(pokemon.url);
-        const details = await response.json();
-        return formatPokemonData(details);
-    }));
+} else {
+    const response = await fetch(`https://pokeapi.co/api/v2/generation/${generation}/`);
+
+    if (!response.ok) {
+        throw new Error("Failed to fetch generation data.");
+    }
+
+    const data = await response.json();
+
+    const species = data.pokemon_species.map(pokemon => {
+        const parts = pokemon.url.split("/");
+        return Number(parts[parts.length - 2]);
+    });
+
+    species.sort((a, b) => a - b);
+
+    pokemonUrls = species.slice(0, 20).map(id =>
+        `https://pokeapi.co/api/v2/pokemon/${id}/`
+    );
+}
+
+const pokemonList = await Promise.all(pokemonUrls.map(async url => {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+        throw new Error("Failed to fetch Pokemon details.");
+    }
+
+    const details = await response.json();
+    return formatPokemonData(details);
+}));
 
     allPokemon = pokemonList;
     displayPokemon(allPokemon);
@@ -126,6 +156,7 @@ async function fetchPokemonDetails(name) {
     const searchForm = document.getElementById("search-form");
     const searchInput = document.getElementById("pokemon-search");
     const typeFilter = document.getElementById("type-filter");
+    const generationFilter = document.getElementById("generation-filter");
 
     function filterPokemon() {
         const searchTerm = searchInput.value.trim().toLowerCase();
@@ -144,6 +175,16 @@ async function fetchPokemonDetails(name) {
 
         typeFilter.addEventListener("change", () => {
             filterPokemon();
+        });
+
+        generationFilter.addEventListener("change", () => {
+            searchInput.value = "";
+            typeFilter.value = "all";
+
+            fetchPokemon(generationFilter.value);
+
+            const info = document.getElementById("pokemon-info");
+            info.innerHTML = "<p>Select a Pokemon to view its details.</p>";
         });
 
     searchForm.addEventListener("submit", async event => {
@@ -190,7 +231,7 @@ async function fetchPokemonDetails(name) {
 
 
     searchForm.addEventListener("reset", () => {
-        displayPokemon(allPokemon);
+        fetchPokemon("all");
 
         const info = document.getElementById("pokemon-info");
         info.innerHTML = "<p>Select a Pokemon to view its details.</p>";
