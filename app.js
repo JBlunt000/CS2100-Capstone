@@ -128,16 +128,16 @@ async function fetchPokemonDetails(name) {
     const typeFilter = document.getElementById("type-filter");
 
     function filterPokemon() {
+        const searchTerm = searchInput.value.trim().toLowerCase();
         const selectedType = typeFilter.value;
 
-        if (selectedType === "all") {
-            displayPokemon(allPokemon);
-            return;
-        }
+        const filteredPokemon = allPokemon.filter(pokemon => {
+            const matchesName = pokemon.name.includes(searchTerm);
+            const matchesType = selectedType === "all" ||
+            pokemon.types.includes(selectedType);
 
-        const filteredPokemon = allPokemon.filter(pokemon => 
-            pokemon.types.includes(selectedType)
-        );
+            return matchesName && matchesType;
+        });
 
         displayPokemon(filteredPokemon);
     }
@@ -164,7 +164,17 @@ async function fetchPokemonDetails(name) {
 
         if (matchingPokemon.length > 0) {
             displayPokemon(matchingPokemon);
+
         } else if (searchTerm !== "") {
+            const localMatches = allPokemon.filter(pokemon =>
+                pokemon.name.includes(searchTerm)
+            );
+
+            if (localMatches.length > 0) {
+                displayPokemon([]);
+                return;
+            }
+
             const pokemon = await fetchPokemonDetails(searchTerm);
 
             if (pokemon && (selectedType === "all" || pokemon.types.includes(selectedType))) {
