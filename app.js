@@ -179,6 +179,27 @@ async function matchesPokemonGeneration(pokemon, generation) {
     const searchInput = document.getElementById("pokemon-search");
     const typeFilter = document.getElementById("type-filter");
     const generationFilter = document.getElementById("generation-filter");
+    const searchError = document.getElementById("search-error");
+
+    function validatePokemonName() {
+        const name = searchInput.value.trim();
+
+        searchError.textContent = "";
+        searchInput.removeAttribute("aria-invalid");
+
+        if (name !== "" && !/^[a-z0-9-]+$/i.test(name)) {
+            searchError.textContent = "Only letters, numbers, and hyphens are allowed.";
+            searchInput.setAttribute("aria-invalid", "true");
+            return false;
+        }
+
+        return true;
+    }
+
+        searchInput.addEventListener("input", () => {
+            searchError.textContent = "";
+            searchInput.removeAttribute("aria-invalid");
+        });
 
     function filterPokemon() {
         const searchTerm = searchInput.value.trim().toLowerCase();
@@ -209,6 +230,10 @@ async function matchesPokemonGeneration(pokemon, generation) {
 
     searchForm.addEventListener("submit", async event => {
         event.preventDefault();
+
+        if (!validatePokemonName()) {
+            return;
+        }
 
         const searchTerm = searchInput.value.trim().toLowerCase();
         const selectedType = typeFilter.value;
@@ -262,6 +287,10 @@ async function matchesPokemonGeneration(pokemon, generation) {
 
 
     searchForm.addEventListener("reset", () => {
+        searchError.textContent = "";
+        searchInput.removeAttribute("aria-invalid");
+
+        
         fetchPokemon("all");
 
         const info = document.getElementById("pokemon-info");

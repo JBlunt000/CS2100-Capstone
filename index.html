@@ -26,7 +26,9 @@
 
             <form id="search-form">
                 <label for="pokemon-search">Search Pokemon:</label>
-                <input type="search" id="pokemon-search" name="pokemon-search" placeholder="Enter a Pokemon name">
+                <input type="search" id="pokemon-search" name="pokemon-search" placeholder="Enter a Pokemon name" aria-describedby="search-error">
+
+                <span id="search-error" class="error-message" role="alert"></span>
 
                 <button type="submit">Search</button>
 

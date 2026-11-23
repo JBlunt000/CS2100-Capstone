@@ -184,3 +184,16 @@ footer a:hover {
 .pokemon-card:hover {
     border-color: #3b82f6;
 }
+
+.error-message {
+    color: #fca5a5;
+    font-size: 14px;
+}
+
+.error-message:empty {
+    display: none;
+}
+
+input[aria-invalid="true"] {
+    border-color: #fca5a5;
+}
