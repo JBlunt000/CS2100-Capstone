@@ -7,8 +7,14 @@ async function fetchPokemon() {
     }
 
     const data = await response.json();
-    displayPokemon(data.results);
-    
+
+    const pokemonList = await Promise.all(data.results.map(async pokemon => {
+        const response = await fetch(pokemon.url);
+        const details = await response.json();
+        return formatPokemonData(details);
+    }));
+    displayPokemon(pokemonList);
+
 } catch (error) {
     console.error("Error fetching Pokemon:", error);
     }
@@ -29,7 +35,17 @@ function displayPokemon(pokemonList) {
         const name = document.createElement("h3");
         name.textContent = pokemon.name;
 
+        const image = document.createElement("img");
+        image.src = pokemon.image;
+        image.alt = pokemon.name;
+
+        const types = document.createElement("p");
+        types.textContent = "Type: " + pokemon.types.join(" / ");
+
         card.appendChild(name);
+        card.appendChild(image);
+        card.appendChild(types);
+        
         fragment.appendChild(card);
     });
 
