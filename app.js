@@ -7,13 +7,34 @@ async function fetchPokemon() {
     }
 
     const data = await response.json();
-    console.log(data.results);
+    displayPokemon(data.results);
+    
 } catch (error) {
     console.error("Error fetching Pokemon:", error);
     }
 }
 
 fetchPokemon();
+
+function displayPokemon(pokemonList) {
+    const grid = document.getElementById("pokemon-grid");
+    const fragment = document.createDocumentFragment();
+
+    grid.innerHTML = "";
+
+    pokemonList.forEach(pokemon => {
+        const card = document.createElement("article");
+        card.classList.add("pokemon-card");
+
+        const name = document.createElement("h3");
+        name.textContent = pokemon.name;
+
+        card.appendChild(name);
+        fragment.appendChild(card);
+    });
+
+    grid.appendChild(fragment);
+}
 
 async function fetchPokemonDetails(name) {
     try {
