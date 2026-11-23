@@ -229,3 +229,28 @@ select[aria-invalid="true"] {
     outline: 2px solid #facc15;
     outline-offset: 2px;
 }
+
+nav a:focus-visible,
+footer a:focus-visible,
+#search-form input:focus-visible,
+#search-form select:focus-visible,
+#search-form button:focus-visible {
+    outline: 2px solid #facc15;
+    outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+    .form-group {
+        width: 100%;
+    }
+
+    #pokemon-search,
+    #type-filter,
+    #generation-filter {
+        width: 100%;
+    }
+
+    .error-message {
+        max-width: 100%;
+    }
+}
