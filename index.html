@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,61 +26,70 @@
             <p>Search for Pokemon and view their information.</p>
 
             <form id="search-form">
-                <label for="pokemon-search">Search Pokemon:</label>
-                <input type="search" id="pokemon-search" name="pokemon-search" placeholder="Enter a Pokemon name" aria-describedby="search-error">
+                <div class="form-group">
+                    <label for="pokemon-search">Search Pokemon:</label>
+                    <input type="search" id="pokemon-search" name="pokemon-search" placeholder="Enter a Pokemon name"
+                        aria-describedby="search-error">
 
-                <span id="search-error" class="error-message" role="alert"></span>
+                    <span id="search-error" class="error-message" role="alert"></span>
+                </div>
 
-                <button type="submit">Search</button>
+                <div class="form-group">
+                    <label for="type-filter">Type:</label>
+                    <select id="type-filter" name="type-filter" aria-describedby="type-error">
+                        <option value="all">All Types</option>
+                        <option value="fire">Fire</option>
+                        <option value="water">Water</option>
+                        <option value="grass">Grass</option>
+                        <option value="electric">Electric</option>
+                    </select>
 
-                <label for="type-filter">Type:</label>
-                <select id="type-filter" name="type-filter" aria-describedby="type-error">
-                    <option value="all">All Types</option>
-                    <option value="fire">Fire</option>
-                    <option value="water">Water</option>
-                    <option value="grass">Grass</option>
-                    <option value="electric">Electric</option>
-                </select>
+                    <span id="type-error" class="error-message" role="alert"></span>
+                </div>
 
-                <span id="type-error" class="error-message" role="alert"></span>
 
-                <label for="generation-filter">Generation:</label>
-                <select id="generation-filter" name="generation-filter" aria-describedby="generation-error">
-                    <option value="all">All Generations</option>
-                    <option value="1">Generation 1</option>
-                    <option value="2">Generation 2</option>
-                    <option value="3">Generation 3</option>
-                    <option value="4">Generation 4</option>
-                    <option value="5">Generation 5</option>
-                    <option value="6">Generation 6</option>
-                    <option value="7">Generation 7</option>
-                    <option value="8">Generation 8</option>
-                    <option value="9">Generation 9</option>
-                </select>
+                <div class="form-group">
+                    <label for="generation-filter">Generation:</label>
+                    <select id="generation-filter" name="generation-filter" aria-describedby="generation-error">
+                        <option value="all">All Generations</option>
+                        <option value="1">Generation 1</option>
+                        <option value="2">Generation 2</option>
+                        <option value="3">Generation 3</option>
+                        <option value="4">Generation 4</option>
+                        <option value="5">Generation 5</option>
+                        <option value="6">Generation 6</option>
+                        <option value="7">Generation 7</option>
+                        <option value="8">Generation 8</option>
+                        <option value="9">Generation 9</option>
+                    </select>
 
-                <span id="generation-error" class="error-message" role="alert"></span>
+                    <span id="generation-error" class="error-message" role="alert"></span>
+                </div>
 
-                <button type="reset">Clear</button>
+                <div class="form-buttons">
+                    <button type="submit">Search</button>
+                    <button type="reset">Clear</button>
+                </div>
             </form>
         </section>
 
-    <div class="pokemon-container">
-        <section id="pokemon-list" class="pokemon-list">
-            <h2>Pokemon List</h2>
-            
-            <div class="pokemon-grid" id="pokemon-grid">
+        <div class="pokemon-container">
+            <section id="pokemon-list" class="pokemon-list">
+                <h2>Pokemon List</h2>
 
-            </div>
-        </section>
+                <div class="pokemon-grid" id="pokemon-grid">
 
-        <section id="pokemon-details" class="pokemon-details">
-            <h2>Pokemon Details</h2>
+                </div>
+            </section>
 
-            <article class="pokemon-info" id="pokemon-info">
-                <p>Select a Pokemon to view its details.</p>
-            </article>
-        </section>
-    </div>
+            <section id="pokemon-details" class="pokemon-details">
+                <h2>Pokemon Details</h2>
+
+                <article class="pokemon-info" id="pokemon-info">
+                    <p>Select a Pokemon to view its details.</p>
+                </article>
+            </section>
+        </div>
     </main>
 
     <footer id="about">

@@ -7,50 +7,50 @@ async function fetchPokemon(generation = "all") {
         if (generation === "all") {
             const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=20");
 
-        if (!response.ok) {
-            throw new Error("Failed to fetch Pokemon data.");
-    }
+            if (!response.ok) {
+                throw new Error("Failed to fetch Pokemon data.");
+            }
 
-    const data = await response.json();
-    pokemonUrls = data.results.map(pokemon => pokemon.url);
+            const data = await response.json();
+            pokemonUrls = data.results.map(pokemon => pokemon.url);
 
-} else {
-    const response = await fetch(`https://pokeapi.co/api/v2/generation/${generation}/`);
+        } else {
+            const response = await fetch(`https://pokeapi.co/api/v2/generation/${generation}/`);
 
-    if (!response.ok) {
-        throw new Error("Failed to fetch generation data.");
-    }
+            if (!response.ok) {
+                throw new Error("Failed to fetch generation data.");
+            }
 
-    const data = await response.json();
+            const data = await response.json();
 
-    const species = data.pokemon_species.map(pokemon => {
-        const parts = pokemon.url.split("/");
-        return Number(parts[parts.length - 2]);
-    });
+            const species = data.pokemon_species.map(pokemon => {
+                const parts = pokemon.url.split("/");
+                return Number(parts[parts.length - 2]);
+            });
 
-    species.sort((a, b) => a - b);
+            species.sort((a, b) => a - b);
 
-    pokemonUrls = species.slice(0, 20).map(id =>
-        `https://pokeapi.co/api/v2/pokemon/${id}/`
-    );
-}
+            pokemonUrls = species.slice(0, 20).map(id =>
+                `https://pokeapi.co/api/v2/pokemon/${id}/`
+            );
+        }
 
-const pokemonList = await Promise.all(pokemonUrls.map(async url => {
-    const response = await fetch(url);
+        const pokemonList = await Promise.all(pokemonUrls.map(async url => {
+            const response = await fetch(url);
 
-    if (!response.ok) {
-        throw new Error("Failed to fetch Pokemon details.");
-    }
+            if (!response.ok) {
+                throw new Error("Failed to fetch Pokemon details.");
+            }
 
-    const details = await response.json();
-    return formatPokemonData(details);
-}));
+            const details = await response.json();
+            return formatPokemonData(details);
+        }));
 
-    allPokemon = pokemonList;
-    filterPokemon();
+        allPokemon = pokemonList;
+        filterPokemon();
 
-} catch (error) {
-    console.error("Error fetching Pokemon:", error);
+    } catch (error) {
+        console.error("Error fetching Pokemon:", error);
     }
 }
 
@@ -62,7 +62,7 @@ function displayPokemon(pokemonList) {
 
     grid.innerHTML = "";
 
-        if (pokemonList.length === 0) {
+    if (pokemonList.length === 0) {
         const message = document.createElement("p");
         message.textContent = "No Pokemon Found.";
         grid.appendChild(message);
@@ -179,148 +179,144 @@ async function matchesPokemonGeneration(pokemon, generation) {
     }
 }
 
-    const searchForm = document.getElementById("search-form");
-    const searchInput = document.getElementById("pokemon-search");
-    const typeFilter = document.getElementById("type-filter");
-    const generationFilter = document.getElementById("generation-filter");
-    const searchError = document.getElementById("search-error");
-    const typeError = document.getElementById("type-error");
-    const generationError = document.getElementById("generation-error");
+const searchForm = document.getElementById("search-form");
+const searchInput = document.getElementById("pokemon-search");
+const typeFilter = document.getElementById("type-filter");
+const generationFilter = document.getElementById("generation-filter");
+const searchError = document.getElementById("search-error");
+const typeError = document.getElementById("type-error");
+const generationError = document.getElementById("generation-error");
 
-    function validatePokemonName() {
-        const name = searchInput.value.trim();
+function validatePokemonName() {
+    const name = searchInput.value.trim();
 
-        searchError.textContent = "";
-        searchInput.removeAttribute("aria-invalid");
+    searchError.textContent = "";
+    searchInput.removeAttribute("aria-invalid");
 
-        if (name !== "" && !/^[a-z0-9-]+$/i.test(name)) {
-            searchError.textContent = "Only letters, numbers, and hyphens are allowed.";
-            searchInput.setAttribute("aria-invalid", "true");
-            return false;
-        }
-
-        return true;
+    if (name !== "" && !/^[a-z0-9-]+$/i.test(name)) {
+        searchError.textContent = "Only letters, numbers, and hyphens are allowed.";
+        searchInput.setAttribute("aria-invalid", "true");
+        return false;
     }
 
-        searchInput.addEventListener("input", () => {
-            searchError.textContent = "";
-            searchInput.removeAttribute("aria-invalid");
-        });
+    return true;
+}
 
-    function validatePokemonType() {
-        const validTypes = ["all", "fire", "water", "grass", "electric"];
+searchInput.addEventListener("input", () => {
+    searchError.textContent = "";
+    searchInput.removeAttribute("aria-invalid");
+});
 
-        typeError.textContent = "";
-        typeFilter.removeAttribute("aria-invalid");
+function validatePokemonType() {
+    const validTypes = ["all", "fire", "water", "grass", "electric"];
 
-        if (!validTypes.includes(typeFilter.value)) {
-            typeError.textContent = "Please select a valid Pokemon type.";
-            typeFilter.setAttribute("aria-invalid", "true");
-            return false;
-        }
+    typeError.textContent = "";
+    typeFilter.removeAttribute("aria-invalid");
 
-        return true;
+    if (!validTypes.includes(typeFilter.value)) {
+        typeError.textContent = "Please select a valid Pokemon type.";
+        typeFilter.setAttribute("aria-invalid", "true");
+        return false;
     }
 
-    function validatePokemonGeneration() {
-        const validGenerations = ["all", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    return true;
+}
 
-        generationError.textContent = "";
-        generationFilter.removeAttribute("aria-invalid");
+function validatePokemonGeneration() {
+    const validGenerations = ["all", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
-        if (!validGenerations.includes(generationFilter.value)) {
-            generationError.textContent = "Please select a valid Pokemon generation.";
-            generationFilter.setAttribute("aria-invalid", "true");
-            return false;
-        }
+    generationError.textContent = "";
+    generationFilter.removeAttribute("aria-invalid");
 
-        return true;
+    if (!validGenerations.includes(generationFilter.value)) {
+        generationError.textContent = "Please select a valid Pokemon generation.";
+        generationFilter.setAttribute("aria-invalid", "true");
+        return false;
     }
 
-    function filterPokemon() {
-        const searchTerm = searchInput.value.trim().toLowerCase();
-        const selectedType = typeFilter.value;
+    return true;
+}
+
+function filterPokemon() {
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    const selectedType = typeFilter.value;
 
 
-        const filteredPokemon = allPokemon.filter(pokemon => {
-            const matchesName = pokemon.name.includes(searchTerm);
-            const matchesType = selectedType === "all" ||
+    const filteredPokemon = allPokemon.filter(pokemon => {
+        const matchesName = pokemon.name.includes(searchTerm);
+        const matchesType = selectedType === "all" ||
             pokemon.types.includes(selectedType);
 
-            return matchesName && matchesType;
-        });
+        return matchesName && matchesType;
+    });
 
-        displayPokemon(filteredPokemon);
+    displayPokemon(filteredPokemon);
+}
+
+typeFilter.addEventListener("change", () => {
+    validatePokemonType();
+    filterPokemon();
+});
+
+generationFilter.addEventListener("change", () => {
+    if (!validatePokemonGeneration()) {
+        return;
     }
 
-        typeFilter.addEventListener("change", () => {
-            validatePokemonType();
-            filterPokemon();
-        });
+    fetchPokemon(generationFilter.value);
 
-        generationFilter.addEventListener("change", () => {
-            if (!validatePokemonGeneration()) {
-                return;
-            }
+    const info = document.getElementById("pokemon-info");
+    info.innerHTML = "<p>Select a Pokemon to view its details.</p>";
+});
 
-            fetchPokemon(generationFilter.value);
+searchForm.addEventListener("submit", async event => {
+    event.preventDefault();
 
-            const info = document.getElementById("pokemon-info");
-            info.innerHTML = "<p>Select a Pokemon to view its details.</p>";
-        });
+    const validName = validatePokemonName();
+    const validType = validatePokemonType();
+    const validGeneration = validatePokemonGeneration();
 
-    searchForm.addEventListener("submit", async event => {
-        event.preventDefault();
-
-       const validName = validatePokemonName();
-       const validType = validatePokemonType();
-       const validGeneration = validatePokemonGeneration();
-
-       if (!validName || !validType || !validGeneration) {
+    if (!validName || !validType || !validGeneration) {
         return;
-       }
+    }
 
-        const searchTerm = searchInput.value.trim().toLowerCase();
-        const selectedType = typeFilter.value;
-        const selectedGeneration = generationFilter.value;
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    const selectedType = typeFilter.value;
+    const selectedGeneration = generationFilter.value;
 
-        let matchingPokemon = allPokemon.filter(pokemon =>
+    let matchingPokemon = allPokemon.filter(pokemon =>
+        pokemon.name.includes(searchTerm)
+    );
+
+    if (selectedType !== "all") {
+        matchingPokemon = matchingPokemon.filter(pokemon =>
+            pokemon.types.includes(selectedType)
+        );
+    }
+
+    if (matchingPokemon.length > 0) {
+        displayPokemon(matchingPokemon);
+
+    } else if (searchTerm !== "") {
+        const localMatches = allPokemon.filter(pokemon =>
             pokemon.name.includes(searchTerm)
         );
 
-        if (selectedType !== "all") {
-            matchingPokemon = matchingPokemon.filter(pokemon =>
-                pokemon.types.includes(selectedType)
-            );
+        if (localMatches.length > 0) {
+            displayPokemon([]);
+            return;
         }
 
-        if (matchingPokemon.length > 0) {
-            displayPokemon(matchingPokemon);
+        const pokemon = await fetchPokemonDetails(searchTerm);
 
-        } else if (searchTerm !== "") {
-            const localMatches = allPokemon.filter(pokemon =>
-                pokemon.name.includes(searchTerm)
-            );
-
-            if (localMatches.length > 0) {
-                displayPokemon([]);
-                return;
-            }
-
-            const pokemon = await fetchPokemonDetails(searchTerm);
-
-            if (pokemon) {
-                const matchesType = selectedType === "all" ||
+        if (pokemon) {
+            const matchesType = selectedType === "all" ||
                 pokemon.types.includes(selectedType);
 
-                const matchesGeneration =  await matchesPokemonGeneration(pokemon, selectedGeneration);
+            const matchesGeneration = await matchesPokemonGeneration(pokemon, selectedGeneration);
 
-                if (matchesType && matchesGeneration) {
-                    displayPokemon([pokemon]);
-                } else {
-                    displayPokemon([]);
-                }
-
+            if (matchesType && matchesGeneration) {
+                displayPokemon([pokemon]);
             } else {
                 displayPokemon([]);
             }
@@ -328,24 +324,28 @@ async function matchesPokemonGeneration(pokemon, generation) {
         } else {
             displayPokemon([]);
         }
-    });
+
+    } else {
+        displayPokemon([]);
+    }
+});
 
 
-    searchForm.addEventListener("reset", () => {
-        searchError.textContent = "";
-        typeError.textContent = "";
-        generationError.textContent = "";
+searchForm.addEventListener("reset", () => {
+    searchError.textContent = "";
+    typeError.textContent = "";
+    generationError.textContent = "";
 
 
-        searchInput.removeAttribute("aria-invalid");
-        typeFilter.removeAttribute("aria-invalid");
-        generationFilter.removeAttribute("aria-invalid");
+    searchInput.removeAttribute("aria-invalid");
+    typeFilter.removeAttribute("aria-invalid");
+    generationFilter.removeAttribute("aria-invalid");
 
-        fetchPokemon("all");
+    fetchPokemon("all");
 
-        const info = document.getElementById("pokemon-info");
-        info.innerHTML = "<p>Select a Pokemon to view its details.</p>";
-    });
+    const info = document.getElementById("pokemon-info");
+    info.innerHTML = "<p>Select a Pokemon to view its details.</p>";
+});
 
 function formatPokemonData(data) {
     return {

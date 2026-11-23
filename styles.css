@@ -45,9 +45,22 @@ main {
 
 #search-form {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 15px;
     flex-wrap: wrap;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    align-self: flex-end;
 }
 
 #pokemon-search, #type-filter, #generation-filter {
@@ -56,6 +69,8 @@ main {
     color: #f1f5f9;
     border: 1px solid #3b82f6;
     border-radius: 5px;
+    width: 200px;
+    box-sizing: border-box;
 }
 
 #search-form button {
@@ -197,6 +212,7 @@ footer a:hover {
 .error-message {
     color: #fca5a5;
     font-size: 14px;
+    max-width: 200px;
 }
 
 .error-message:empty {
